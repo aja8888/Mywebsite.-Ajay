@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Vivekanandha - Exam Result</title>
+<style>
+  body { font-family: "Times New Roman", serif; text-align:center; padding:18px; color:#111; }
+  h1{ font-size:20px; margin:6px; font-weight:700; text-transform:uppercase; }
+  .sub{ font-size:16px; margin:2px; }
+  #searchBox { margin-top:18px; }
+  input#roll { padding:10px; width:72%; max-width:380px; font-size:16px; border:1px solid #999; border-radius:4px; }
+  button { padding:10px 14px; font-size:16px; margin-left:8px; cursor:pointer; border-radius:4px; }
+  .result-card { display:inline-block; text-align:center; margin-top:22px; padding:18px 26px; border:0px; }
+  .big { font-size:20px; font-weight:700; letter-spacing:1px; margin:8px 0; }
+  .info { font-size:18px; margin:6px 0; }
+  .note { margin-top:20px; font-size:15px; line-height:1.4; max-width:760px; margin-left:auto; margin-right:auto; }
+  .green { color:green; font-weight:700; }
+  .notfound { color:#c00; font-weight:700; margin-top:12px; }
+  #backBtn{ margin-top:16px; }
+</style>
+</head>
+<body>
+
+<h1>VIVEKANANDA INSTITUTE OF LANGUAGES</h1>
+<div class="sub">Ramakrishna Math, Hyderabad</div>
+<div class="sub">Examination Results – June to August 2025</div>
+
+<!-- SEARCH -->
+<div id="searchBox">
+  <input id="roll" placeholder="Enter Roll No (e.g. EN25A7041)" autocomplete="off" />
+  <button id="checkBtn">Check Result</button>
+  <div id="msg" class="notfound" style="display:none;"></div>
+</div>
+
+<!-- RESULT -->
+<div id="resultWrap" style="display:none;">
+  <div class="result-card" id="resultCard">
+    <!-- filled by JS -->
+  </div>
+  <div>
+    <button id="backBtn">Check another</button>
+  </div>
+</div>
+
+<div class="note" id="footerNote" style="display:none;">
+  All the students are requested not to lose heart. Please contact the office for re-evaluation or repeat options.
+</div>
+
+<script>
+  // Add student records here. Use uppercase roll numbers.
+  const results = {
+    "EN25A7041": { name:"Kanaganti Ajay Kumar", section:"Spoken English Senior 13", result:"Promoted", grade:"Pass" },
+    // Example: add more:
+    "EN25A7042": { name:"S. Example Student", section:"Spoken English Senior 13", result:"Promoted", grade:"Pass" },
+    "EN25A7043": { name:"R. Another", section:"Spoken English Senior 12", result:"Not Promoted", grade:"Fail" }
+  };
+
+  const rollInput = document.getElementById('roll');
+  const msg = document.getElementById('msg');
+  const searchBox = document.getElementById('searchBox');
+  const resultWrap = document.getElementById('resultWrap');
+  const resultCard = document.getElementById('resultCard');
+  const footerNote = document.getElementById('footerNote');
+
+  function showMsg(text){
+    msg.style.display = text ? 'block' : 'none';
+    msg.innerText = text || '';
+  }
+
+  function showResultData(data, roll){
+    // build HTML like your screenshot
+    resultCard.innerHTML = `
+      <div class="big">REGN NO. : ${roll}</div>
+      <div class="info">NAME : ${data.name}</div>
+      <div class="info">SECTION : ${data.section}</div>
+      <div class="info">RESULT : <span class="${data.result.toLowerCase().includes('prom') ? 'green' : ''}">${data.result}</span></div>
+      <div class="info">GRADE : <span class="${data.grade.toLowerCase().includes('pass') ? 'green' : ''}">${data.grade}</span></div>
+    `;
+    footerNote.style.display = 'block';
+    searchBox.style.display = 'none';
+    resultWrap.style.display = 'block';
+  }
+
+  function getResult(){
+    showMsg('');
+    let r = rollInput.value.trim().toUpperCase();
+    if(!r){ showMsg('Please enter roll number'); return; }
+    if(results[r]) showResultData(results[r], r);
+    else showMsg('No record found for: ' + r);
+  }
+
+  document.getElementById('checkBtn').addEventListener('click', getResult);
+  rollInput.addEventListener('keydown', function(e){ if(e.key === 'Enter') getResult(); });
+  document.getElementById('backBtn').addEventListener('click', function(){
+    rollInput.value=''; searchBox.style.display='block'; resultWrap.style.display='none'; footerNote.style.display='none'; showMsg('');
+    rollInput.focus();
+  });
+</script>
+
+</body>
+</html>"EN25A7044": { name:"New Student", section:"Spoken English Senior 14", result:"Promoted", grade:"Pass" }
